@@ -1,6 +1,6 @@
 /* 올팍 나우 · 서비스 워커
-   셸은 캐시 우선, 실시간 주차 API는 네트워크 우선(실패 시 캐시) */
-var V = 'olpark-v1';
+   셸은 네트워크 우선(오프라인일 때 캐시), 실시간 주차 API는 네트워크 우선(실패 시 캐시) */
+var V = 'olpark-v2';
 var SHELL = [
   './',
   './index.html',
@@ -43,14 +43,15 @@ self.addEventListener('fetch', function (e) {
   if (url.origin !== location.origin) return;
 
   e.respondWith(
-    caches.match(req).then(function (hit) {
-      if (hit) return hit;
-      return fetch(req).then(function (res) {
-        if (res && res.status === 200) {
-          var copy = res.clone();
-          caches.open(V).then(function (c) { c.put(req, copy); });
-        }
-        return res;
+    fetch(req).then(function (res) {
+      if (res && res.status === 200) {
+        var copy = res.clone();
+        caches.open(V).then(function (c) { c.put(req, copy); });
+      }
+      return res;
+    }).catch(function () {
+      return caches.match(req).then(function (hit) {
+        return hit || caches.match('./index.html');
       });
     })
   );
