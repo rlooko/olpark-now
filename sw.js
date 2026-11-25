@@ -1,6 +1,6 @@
 /* 올팍 나우 · 서비스 워커
    셸은 네트워크 우선(오프라인일 때 캐시), 실시간 주차 API는 네트워크 우선(실패 시 캐시) */
-var V = 'olpark-v2';
+var V = 'olpark-v3';
 var SHELL = [
   './',
   './index.html',
