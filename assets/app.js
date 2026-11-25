@@ -82,7 +82,8 @@
     return null;
   }
   function daysBetween(a, b) {
-    var A = parseKst(ymd(a)), B = parseKst(ymd(b));
+    var A = parseKst(typeof a === 'string' ? a : ymd(a));
+    var B = parseKst(typeof b === 'string' ? b : ymd(b));
     return Math.round((B - A) / 86400000);
   }
 
