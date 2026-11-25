@@ -71,7 +71,7 @@
     var wi = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(p.weekday);
     var w = WD[state.lang][wi];
     var md = (+p.month) + '/' + (+p.day);
-    if (state.lang === 'en') return (withYear ? p.year + ' ' : '') + w + ' ' + md;
+    if (state.lang === 'en') return withYear ? (w + ' ' + md + ', ' + p.year) : (w + ' ' + md);
     if (state.lang === 'zh') return (withYear ? p.year + '年' : '') + md + '（' + w + '）';
     return (withYear ? p.year + '. ' : '') + md + ' (' + w + ')';
   }
@@ -197,6 +197,11 @@
             '<span' + (state.park.stalled ? ' class="stalled"' : '') + '>' +
               esc(state.park.stalled ? t('stalled') : t('updated', { t: hm(at) })) + '</span>' +
             '<span class="sep"></span><span>' + esc(t('auto60')) + '</span>' +
+          '</div>' +
+          '<div class="legend">' +
+            '<span><i style="background:var(--ok)"></i>50%</span>' +
+            '<span><i style="background:var(--warn)"></i>70%</span>' +
+            '<span><i style="background:var(--hot)"></i>90%</span>' +
           '</div>' +
         '</div>' +
       '</div>' +
