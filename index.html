@@ -14,6 +14,14 @@
 <link rel="icon" href="icons/favicon.svg" type="image/svg+xml" />
 <link rel="apple-touch-icon" href="icons/icon-192.png" />
 <link rel="stylesheet" href="assets/app.css" />
+<script>
+window.addEventListener('error', function (e) {
+  var d = document.createElement('pre');
+  d.style.cssText = 'position:fixed;left:8px;right:8px;bottom:86px;background:#fff;color:#c00;font:11px/1.45 monospace;padding:10px;z-index:9999;white-space:pre-wrap;border:1px solid #c00;border-radius:8px;max-height:40vh;overflow:auto';
+  d.textContent = 'ERR ' + (e.message || '') + '\n@ ' + (e.filename || '').split('/').pop() + ':' + (e.lineno || '');
+  document.body.appendChild(d);
+});
+</script>
 </head>
 <body>
 <a class="skip" href="#main">본문으로</a>
