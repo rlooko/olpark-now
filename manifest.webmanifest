@@ -1,0 +1,24 @@
+{
+  "name": "올팍 나우 · OLPARK NOW",
+  "short_name": "올팍 나우",
+  "description": "올림픽공원 공연일, 지금 필요한 것만. 실시간 주차 · 공연장 동선 · 20분 산책 · 분산 출귀",
+  "lang": "ko",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F2F5F1",
+  "theme_color": "#0C5C43",
+  "categories": ["travel", "navigation", "lifestyle"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "지금 주차", "url": "./index.html#now" },
+    { "name": "공연 일정", "url": "./index.html#shows" },
+    { "name": "분산 출차", "url": "./index.html#exit" }
+  ]
+}
