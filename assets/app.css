@@ -197,7 +197,7 @@ main { max-width: 880px; margin: 0 auto; padding: 6px 18px 20px; }
 .park { display: flex; align-items: center; gap: 18px; }
 @media (max-width: 359px) { .park { gap: 12px; } }
 .ring { position: relative; width: 132px; height: 132px; flex: none; }
-@media (max-width: 380px) { .ring { width: 116px; height: 116px; } .park-cap { font-size: 11.5px; } .ring-num b { font-size: 24px; } }
+@media (max-width: 410px) { .ring { width: 116px; height: 116px; } .park-cap { font-size: 11.5px; } .ring-num b { font-size: 24px; } }
 .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
 .ring .track { stroke: var(--line-2); }
 .ring .val { transition: stroke-dashoffset .9s cubic-bezier(.22,.7,.3,1), stroke .4s; stroke-linecap: round; }
