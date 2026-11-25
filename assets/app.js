@@ -394,11 +394,11 @@
 
   /* ── 렌더: 귀가 ───────────────────────────────────────── */
   var GATE_ROWS = [
-    { v: 'kspo', key: '동2문', ko: '동2문 · P5', en: 'East 2 · P5', zh: '东2门 · P5' },
-    { v: 'arena', key: '동2문', ko: '동2문 · P6', en: 'East 2 · P6', zh: '东2门 · P6' },
-    { v: 'hall', key: '동2문', ko: '동2문 · P2', en: 'East 2 · P2', zh: '东2门 · P2' },
-    { v: 'woori', key: '남2문', ko: '남2문 · P7', en: 'South 2 · P7', zh: '南2门 · P7' },
-    { v: 'kart', key: '남2문', ko: '남2문 · P1', en: 'South 2 · P1', zh: '南2门 · P1' }
+    { v: 'kspo', ko: '동2문 · P5', en: 'East 2 · P5', zh: '东2门 · P5', nm: { ko: 'KSPO DOME', en: 'KSPO DOME', zh: 'KSPO DOME' } },
+    { v: 'arena', ko: '동2문 · P6', en: 'East 2 · P6', zh: '东2门 · P6', nm: { ko: '핸드볼경기장', en: 'Handball Arena', zh: '手球馆' } },
+    { v: 'hall', ko: '동2문 · P2', en: 'East 2 · P2', zh: '东2门 · P2', nm: { ko: '올림픽홀', en: 'Olympic Hall', zh: '奥林匹克厅' } },
+    { v: 'woori', ko: '남2문 · P7', en: 'South 2 · P7', zh: '南2门 · P7', nm: { ko: '우리금융아트홀', en: 'Woori Art Hall', zh: '友利艺术厅' } },
+    { v: 'kart', ko: '남2문 · P1', en: 'South 2 · P1', zh: '南2门 · P1', nm: { ko: 'K-아트홀', en: 'K-Art Hall', zh: 'K艺术厅' } }
   ];
 
   function renderExit() {
@@ -410,7 +410,7 @@
       '<div class="card-h"><h3>' + esc(t('byVenue')) + '</h3><span class="kicker">' + esc(t('gateHours')) + '</span></div>' +
       '<div class="rows">' + GATE_ROWS.map(function (g) {
         var v = D.VENUES[g.v];
-        return '<div class="row"><div class="row-k">' + esc(L(v.alias)) + '</div>' +
+        return '<div class="row"><div class="row-k">' + esc(L(g.nm)) + '</div>' +
           '<div class="row-v"><b>' + esc(L(g)) + '</b><small>' + esc(L(v.bus)) + '</small></div></div>';
       }).join('') + '</div>' +
       '<div class="season now" style="margin-top:12px">' + ICO.out +
