@@ -297,9 +297,10 @@
   function hourWord(d) {
     var p = kstParts(d);
     var h = +p.hour;
-    if (state.lang === 'en') return h < 12 ? 'morning' : (h < 18 ? 'afternoon' : 'evening');
-    if (state.lang === 'zh') return h < 12 ? '上午' : (h < 18 ? '下午' : '晚上');
-    return h < 12 ? '오전' : (h < 18 ? '오후' : '저녁');
+    var h12 = h % 12 === 0 ? 12 : h % 12;
+    if (state.lang === 'en') return h12 + ':' + p.minute + ' ' + (h < 12 ? 'AM' : 'PM');
+    if (state.lang === 'zh') return (h < 12 ? '上午 ' : (h < 18 ? '下午 ' : '晚上 ')) + h12 + ':' + p.minute;
+    return (h < 12 ? '오전 ' : (h < 18 ? '오후 ' : '저녁 ')) + h12 + ':' + p.minute;
   }
 
   /* ── 렌더: 공연 ───────────────────────────────────────── */
@@ -414,19 +415,19 @@
     var pay = '<div class="card">' +
       '<div class="card-h"><h3>' + esc(t('payTitle')) + '</h3></div>' +
       '<div class="rows">' +
-        '<div class="row"><div class="row-k">요금</div><div class="row-v"><b>' + esc(t('payRate')) + '</b></div></div>' +
-        '<div class="row"><div class="row-k">10분</div><div class="row-v">' + esc(t('payFree10')) + '</div></div>' +
-        '<div class="row"><div class="row-k">재입차</div><div class="row-v">' + esc(t('payAgain')) + '</div></div>' +
-        '<div class="row"><div class="row-k">할인</div><div class="row-v">' + esc(t('pay50')) + '</div></div>' +
-        '<div class="row"><div class="row-k">티켓</div><div class="row-v">' + esc(t('payNoDsc')) + '</div></div>' +
+        '<div class="row"><div class="row-k">' + esc(t('rowRate')) + '</div><div class="row-v"><b>' + esc(t('payRate')) + '</b></div></div>' +
+        '<div class="row"><div class="row-k">' + esc(t('row10')) + '</div><div class="row-v">' + esc(t('payFree10')) + '</div></div>' +
+        '<div class="row"><div class="row-k">' + esc(t('rowRe')) + '</div><div class="row-v">' + esc(t('payAgain')) + '</div></div>' +
+        '<div class="row"><div class="row-k">' + esc(t('rowDisc')) + '</div><div class="row-v">' + esc(t('pay50')) + '</div></div>' +
+        '<div class="row"><div class="row-k">' + esc(t('rowTicket')) + '</div><div class="row-v">' + esc(t('payNoDsc')) + '</div></div>' +
       '</div></div>';
 
     var transit = '<div class="card">' +
       '<div class="card-h"><h3>' + esc(t('transitT')) + '</h3></div>' +
       '<div class="rows">' +
-        '<div class="row"><div class="row-k">5·9호선</div><div class="row-v"><b>' + esc(L({ ko: '올림픽공원역 3번 출구', en: 'Olympic Park Stn. Exit 3', zh: '奥林匹克公园站3号出口' })) + '</b><small>' + esc(t('walk10')) + ' · ' + esc(L(D.VENUES.kspo.alias)) + '</small></div></div>' +
-        '<div class="row"><div class="row-k">8호선</div><div class="row-v"><b>' + esc(L({ ko: '몽촌토성역 1번 출구', en: 'Mongchontoseong Stn. Exit 1', zh: '梦村土城站1号出口' })) + '</b><small>' + esc(t('walk5')) + '</small></div></div>' +
-        '<div class="row"><div class="row-k">9호선</div><div class="row-v"><b>' + esc(L({ ko: '한성백제역 2번 출구', en: 'Hanseong Baekje Stn. Exit 2', zh: '汉城百济站2号出口' })) + '</b><small>' + esc(L({ ko: '남4문 방면', en: 'towards South 4 gate', zh: '南4门方向' })) + '</small></div></div>' +
+        '<div class="row"><div class="row-k">' + esc(t('line59')) + '</div><div class="row-v"><b>' + esc(L({ ko: '올림픽공원역 3번 출구', en: 'Olympic Park Stn. Exit 3', zh: '奥林匹克公园站3号出口' })) + '</b><small>' + esc(t('walk10')) + ' · ' + esc(L(D.VENUES.kspo.alias)) + '</small></div></div>' +
+        '<div class="row"><div class="row-k">' + esc(t('line8')) + '</div><div class="row-v"><b>' + esc(L({ ko: '몽촌토성역 1번 출구', en: 'Mongchontoseong Stn. Exit 1', zh: '梦村土城站1号出口' })) + '</b><small>' + esc(t('walk5')) + '</small></div></div>' +
+        '<div class="row"><div class="row-k">' + esc(t('line9')) + '</div><div class="row-v"><b>' + esc(L({ ko: '한성백제역 2번 출구', en: 'Hanseong Baekje Stn. Exit 2', zh: '汉城百济站2号出口' })) + '</b><small>' + esc(L({ ko: '남4문 방면', en: 'towards South 4 gate', zh: '南4门方向' })) + '</small></div></div>' +
         '<div class="row"><div class="row-k">' + esc(t('tBus')) + '</div><div class="row-v">3214 · 3220 · 3319 · 3412 · 3413 · 30-5 · 6300</div></div>' +
         '<div class="row"><div class="row-k">' + esc(t('tBusS')) + '</div><div class="row-v">3216 · 3412 · 3413 · 3414 · 35</div></div>' +
       '</div></div>';
@@ -467,11 +468,14 @@
     var shown = list.filter(function (s) { return parseKst(s.d, s.t) > now; }).slice(0, 8);
     if (!shown.length) shown = list.slice(-4);
 
+    var sameYear = ev.from.slice(0, 4) === ev.to.slice(0, 4);
+    var period = dateLabel(ev.from, !sameYear) + ' – ' + dateLabel(ev.to, !sameYear);
+
     var html = '<div class="sheet-hero">' +
       '<img src="' + ev.poster + '" alt="">' +
       '<div class="t"><span class="show-venue">' + esc(L(v.alias)) + '</span>' +
         '<h2 id="sheetTitle">' + esc(L(ev.title)) + '</h2>' +
-        '<div class="v">' + esc(dateLabel(ev.from)) + ' – ' + esc(dateLabel(ev.to, true)) + '</div></div></div>';
+        '<div class="v">' + esc(period) + '</div></div></div>';
 
     html += '<div class="tags">' +
       '<span class="tag">' + esc(L(ev.age)) + '</span>' +
